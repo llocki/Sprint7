@@ -1,77 +1,51 @@
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
 
 
-public class CourierLoginInTheSystemTest {
-
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru";
-
-
-        Courier courier = new Courier("ninja27", "1234", "saske");
-
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(courier)
-                .when()
-                .post("/api/v1/courier");
-    }
-
+public class CourierLoginInTheSystemTest extends BaseCourierCreatingTest {
 
     @Test
     @DisplayName("Login")
-    public void login(){//Вход в систему
-        Courier courier = new Courier("ninja27","1234");
+    public void login() {//Вход в систему
 
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(courier)
-                .when()
-                .post("/api/v1/courier/login");
+        CourierDTO courier = new CourierDTO("ninja249","1234");
+
+        CourierClientLogin courierClientLogin = new CourierClientLogin();
+        Response response = courierClientLogin.Login(courier);
 
         response.then().assertThat().statusCode(200)
                 .and()
                 .assertThat().body("id", notNullValue());
     }
 
+
     @Test
     @DisplayName("Error in the login or password field")
-    public void loginOrPasswordError(){// Ошибка в поле логина или пароля
-        Courier courier = new Courier("ninj27","1234");
+    public void loginOrPasswordError() {// Ошибка в поле логина или пароля
 
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(courier)
-                .when()
-                .post("/api/v1/courier/login");
+        CourierDTO courier = new CourierDTO("ninj249","1234");
+
+        CourierClientLogin courierClientLogin = new CourierClientLogin();
+        Response response = courierClientLogin.Login(courier);
 
         response.then().assertThat().statusCode(404)
                 .and()
                 .assertThat().body("message", equalTo("Учетная запись не найдена"));
+
     }
+
 
     @Test
     @DisplayName("Missing password")
-    public void missingField(){//Отсутствует пароль
-        Courier courier = new Courier("ninja27", "");
+    public void missingField() {//Отсутствует пароль
 
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(courier)
-                .when()
-                .post("/api/v1/courier/login");
+        CourierDTO courier = new CourierDTO("ninja249","");
+
+        CourierClientLogin courierClientLogin = new CourierClientLogin();
+        Response response = courierClientLogin.Login(courier);
 
         response.then().assertThat().statusCode(400)
                 .and()
@@ -80,42 +54,15 @@ public class CourierLoginInTheSystemTest {
 
     @Test
     @DisplayName("Non-existent user or password")
-    public void nonExistentUsernameOrPassword(){//Не существующий пользователь или пароль
-        Courier courier = new Courier("ninja","123");
+    public void nonExistentUsernameOrPassword() {//Не существующий пользователь или пароль
 
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(courier)
-                .when()
-                .post("/api/v1/courier/login");
+        CourierDTO courier = new CourierDTO("ninj9","123");
+
+        CourierClientLogin courierClientLogin = new CourierClientLogin();
+        Response response = courierClientLogin.Login(courier);
 
         response.then().assertThat().statusCode(404)
                 .and()
                 .assertThat().body("message", equalTo("Учетная запись не найдена"));
-    }
-
-    @After
-    public void delited() {
-
-        Courier courier = new Courier("ninja27","1234");
-
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(courier)
-                .when()
-                .post("/api/v1/courier/login");
-
-        String responseString = response.body().asString();
-        String id = responseString.substring(6, 12);
-
-        given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(responseString)
-                .when()
-                .delete("/api/v1/courier/{id}", id);
-
     }
 }

@@ -1,26 +1,25 @@
-public class Courier {
-    private String login ;
+import io.restassured.response.ValidatableResponse;
 
+public class CourierDTO {
+    private String login ;
     private String password;
     private String firstName;
 
 
-    //private String id;
+    public CourierDTO(ValidatableResponse response){}
 
-    public Courier(){}
 
-    public Courier(String login){
+    public CourierDTO(String login){
         this.login = login;
     }
 
 
-    public Courier(String login, String password){
+    public CourierDTO(String login, String password){
         this.login = login;
         this.password = password;
     }
 
-
-    public Courier(String login, String password, String firstName){
+    public CourierDTO(String login, String password, String firstName){
         this.login = login;
         this.password = password;
         this.firstName = firstName;
@@ -51,9 +50,5 @@ public class Courier {
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-
-    public String getId() { return login; }
-
-    public void setId(String id) { this.login = id; }
 
 }

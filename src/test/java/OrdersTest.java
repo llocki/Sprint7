@@ -1,17 +1,14 @@
 import io.qameta.allure.junit4.DisplayName;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
 
 
 @RunWith(Parameterized.class)
-public class OrdersTest {
+public class OrdersTest extends BaseCourierTest{
 
     private final String firstName;
     private final String lastName;
@@ -39,7 +36,7 @@ public class OrdersTest {
 
     @Parameterized.Parameters
     public static Object[][] getCredentials() {
-        Orders orders = new Orders();
+        OrdersDTO orders = new OrdersDTO();
 
         String[] arr = {"BLACK"};
         String[] arr1 = {"GREY"};
@@ -54,40 +51,28 @@ public class OrdersTest {
         };
     }
 
-    @Before
-    public void setUp() {
-        RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru";}
-
-
     @Test
     @DisplayName("Create an order")
     public void orderCreation(){
 
-        Orders orders = new Orders(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
-
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(orders)
-                .when()
-                .post("/api/v1/orders");
+        OrdersDTO orders = new OrdersDTO(firstName, lastName, address, metroStation, phone, rentTime, deliveryDate, comment, color);
+//---------------------------------------------------------------------------------------------------------------------------------
+        //Создание заказа
+        OrdersClientCreating ordersClient = new OrdersClientCreating();
+        Response response =  ordersClient.Creating(orders);
 
         response.then().assertThat().statusCode(201)
                 .and()
                 .assertThat().body("track", notNullValue());
 
         String responseString = response.body().asString();
-
         String track = responseString.substring(9, 15);
 
 //------------------------------------------------------------------------------
         //Удаление заказа
-        Response response_1 = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(responseString)
-                .when()
-                .put("/api/v1/orders/cancel?track="+ track);
+
+        OrdersClientDelited ordersClientDelited = new OrdersClientDelited();
+        Response response_1 = ordersClientDelited.Delite(responseString ,track);
 
         response_1.then().assertThat().statusCode(200)
                 .and()
