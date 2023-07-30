@@ -1,9 +1,11 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
 public class OrdersClientCreating {
-    String BASE_PATH_ORDERS_CREATING = "/api/v1/orders";
+    String basePathOrdersCreating = "/api/v1/orders";
+    @Step("Request to create an order")
     public Response Creating (OrdersDTO order) {
 
         Response response = given()
@@ -11,7 +13,7 @@ public class OrdersClientCreating {
                 .and()
                 .body(order)
                 .when()
-                .post(BASE_PATH_ORDERS_CREATING);
+                .post(basePathOrdersCreating);
 
         return response;
     }

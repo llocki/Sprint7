@@ -1,10 +1,13 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
 public class CourierClientDelite {
-    String BASE_PATH_DELITED = "/api/v1/courier/{id}";
+    String basePathDelited = "/api/v1/courier/{id}";
 
+
+    @Step("Request to remove a client")
     public Response Delited (String responseString, String id) {
 
         Response response = given()
@@ -12,9 +15,10 @@ public class CourierClientDelite {
                 .and()
                 .body(responseString)
                 .when()
-                .delete(BASE_PATH_DELITED, id);
+                .delete(basePathDelited, id);
 
         return response;
 
     }
+
 }

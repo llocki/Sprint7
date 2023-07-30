@@ -3,7 +3,7 @@ import io.restassured.response.Response;
 import org.junit.After;
 
 public class BaseCourierTest {
-    String BASE_URL = RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru";
+    String baseUrl = RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru";
 
     @After
     public void delited() {

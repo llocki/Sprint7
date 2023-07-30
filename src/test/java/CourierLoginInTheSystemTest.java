@@ -4,7 +4,6 @@ import org.junit.Test;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.Matchers.equalTo;
 
-
 public class CourierLoginInTheSystemTest extends BaseCourierCreatingTest {
 
     @Test

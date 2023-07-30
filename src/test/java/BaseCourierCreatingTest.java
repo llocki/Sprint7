@@ -5,7 +5,7 @@ import org.junit.Before;
 public class BaseCourierCreatingTest extends BaseCourierTest {
     @Before
     public void setUp() {
-        String BASE_URL = RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru";
+        String baseUrl = RestAssured.baseURI = "http://qa-scooter.praktikum-services.ru";
 
         CourierDTO courier = new CourierDTO("ninja249","1234","saske");
 

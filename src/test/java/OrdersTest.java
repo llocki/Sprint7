@@ -1,4 +1,5 @@
 import io.qameta.allure.junit4.DisplayName;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,7 +9,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 
 @RunWith(Parameterized.class)
-public class OrdersTest extends BaseCourierTest{
+public class OrdersTest extends BaseOrderTest{
 
     private final String firstName;
     private final String lastName;

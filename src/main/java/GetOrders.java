@@ -1,14 +1,16 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
 public class GetOrders {
-    String BASE_PATH_ORDERS_GET = "/api/v1/orders";
+    String basePathOrdersGet = "/api/v1/orders";
+    @Step("Query returning a list of clients")
     public Response ordersGet () {
         Response response = given()
                 .header("Content-type", "application/json")
                 .when()
-                .get(BASE_PATH_ORDERS_GET);
+                .get(basePathOrdersGet);
 
         return response;
     }

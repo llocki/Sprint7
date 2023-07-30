@@ -1,10 +1,12 @@
+import io.qameta.allure.Step;
 import io.restassured.response.Response;
 
 import static io.restassured.RestAssured.given;
 
 public class CourierClientLogin {
-    String BASE_PATH_LOGIN = "/api/v1/courier/login";
+    String basePathLogin = "/api/v1/courier/login";
 
+    @Step("Request for client login in the system")
     public Response Login (CourierDTO courier) {
 
         Response response = given()
@@ -12,7 +14,7 @@ public class CourierClientLogin {
                 .and()
                 .body(courier)
                 .when()
-                .post(BASE_PATH_LOGIN);
+                .post(basePathLogin);
 
         return response;
     }

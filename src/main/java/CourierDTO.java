@@ -1,6 +1,6 @@
 import io.restassured.response.ValidatableResponse;
 
-public class CourierDTO {
+ public class CourierDTO {
     private String login ;
     private String password;
     private String firstName;

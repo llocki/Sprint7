@@ -3,7 +3,8 @@ import io.restassured.response.Response;
 import org.junit.Test;
 import static org.hamcrest.CoreMatchers.notNullValue;
 
-public class GetOrderListTest extends BaseCourierTest{
+public class GetOrderListTest extends BaseOrderTest{
+
 
     @Test
     @DisplayName("Order list")
